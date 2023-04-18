@@ -1,0 +1,17 @@
+extend type Mutation {
+    signIn(input: SignInInput): SignInPayload @field(resolver: "Auth\\SignInMutation")
+    logout: LogoutPayload @field(resolver: "Auth\\LogoutMutation") @guard
+}
+
+input SignInInput {
+    email: String! @rules(apply: ["email", "max:255", "required"])
+    password: String! @rules(apply: ["required"])
+}
+
+type SignInPayload {
+    success: Boolean
+}
+
+type LogoutPayload {
+    success: Boolean
+}
