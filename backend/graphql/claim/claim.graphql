@@ -4,8 +4,8 @@ extend type Query {
 
 extend type Mutation {
     createClaim(input: CreateClaimInput): CreateClaimPayload @field(resolver: "Claim\\CreateClaimMutation") @guard
-    editClaim(input: EditClaimInput): EditClaimPayload @field(resolver: "Claim\\EditClaimMutation") @guard
-    deleteClaim(id: Int @rules(apply: ["required", "int", "exists:App\\Claim\\Entity\\Claim,id"])): DeleteClaimPayload @field(resolver: "Claim\\DeleteClaimMutation") @guard
+    editClaim(input: EditClaimInput): EditClaimPayload @field(resolver: "Claim\\EditClaimMutation") @guard @can(ability: "update",  model: "App\\Claim\\Entity\\Claim", find: "input.id")
+    deleteClaim(id: Int @rules(apply: ["required", "int", "exists:App\\Claim\\Entity\\Claim,id"])): DeleteClaimPayload @field(resolver: "Claim\\DeleteClaimMutation") @guard @can(ability: "delete",  model: "App\\Claim\\Entity\\Claim", find: "id")
 }
 
 input CreateClaimInput @validator(class: "Claim\\CreateClaimValidator") {
@@ -26,11 +26,11 @@ type CreateClaimPayload {
 }
 
 type EditClaimPayload {
-    success: Int
+    success: Boolean
 }
 
 type DeleteClaimPayload {
-    success: Int
+    success: Boolean
 }
 
 type Claim @model(class: "App\\Claim\\Entity\\Claim") {
