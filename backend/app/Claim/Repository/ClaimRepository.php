@@ -19,7 +19,7 @@ final class ClaimRepository
         }
     }
 
-    public function remove(Claim $claim): void
+    public function delete(Claim $claim): void
     {
         if (!$claim->delete()) {
             throw new DomainException('Возникла ошибка при удалении заявления');

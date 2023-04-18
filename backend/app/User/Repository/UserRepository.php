@@ -19,7 +19,7 @@ final class UserRepository
         }
     }
 
-    public function remove(User $user): void
+    public function delete(User $user): void
     {
         if (!$user->delete()) {
             throw new DomainException('Возникла ошибка при удалении пользователя');

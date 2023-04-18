@@ -4,7 +4,6 @@ namespace App\GraphQL\Queries\Claim;
 
 use App\Claim\Entity\Claim;
 use App\User\Entity\User;
-use Illuminate\Support\Facades\Cookie;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ClaimsQuery
@@ -15,9 +14,11 @@ class ClaimsQuery
         $user = $context->request()->user();
 
         if ($user->role == User::ROLE_ADMIN) {
-            return Claim::all();
+            return Claim::
+            orderBy('id', 'DESC')->get();
         }
 
-        return $user->claims;
+        return $user->claims()
+            ->orderBy('id', 'DESC')->get();
     }
 }
