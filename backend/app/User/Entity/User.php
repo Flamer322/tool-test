@@ -3,7 +3,9 @@
 namespace App\User\Entity;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Claim\Entity\Claim;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -37,6 +39,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Claim> $claims
+ * @property-read int|null $claims_count
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject
@@ -56,6 +60,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function claims(): HasMany
+    {
+        return $this->hasMany(Claim::class, 'user_id');
+    }
 
     public function getJWTIdentifier(): int
     {

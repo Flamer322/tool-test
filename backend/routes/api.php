@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Actions\Media;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -10,3 +12,6 @@
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/storage/media/{name}', Media\FileAction::class)
+    ->name('storage.media');

@@ -1,0 +1,31 @@
+extend type Query {
+    claims: [Claim!] @guard @field(resolver: "App\\GraphQL\\Queries\\Claim\\ClaimsQuery")
+}
+
+extend type Mutation {
+    createClaim(input: CreateClaimInput): CreateClaimPayload @field(resolver: "Claim\\CreateClaimMutation") @guard
+}
+
+input CreateClaimInput @validator(class: "Claim\\CreateClaimValidator") {
+    name: String!
+    number: String!
+    files: [Upload!]
+}
+
+type CreateClaimPayload {
+    id: Int
+}
+
+type Claim @model(class: "App\\Claim\\Entity\\Claim") {
+    id: Int!
+    name: String!
+    number: String!
+    files: [File!] @method(name: "files")
+}
+
+type File {
+    name: String!
+    mime: String @field(resolver: "App\\GraphQL\\Types\\Media\\FileType@mime")
+    size: Int @field(resolver: "App\\GraphQL\\Types\\Media\\FileType@size")
+    url: String! @field(resolver: "App\\GraphQL\\Types\\Media\\FileType@url")
+}
