@@ -7,7 +7,6 @@ namespace App\Claim\Command\Create;
 use App\Claim\Entity\Claim;
 use App\Claim\Repository\ClaimRepository;
 use App\User\Repository\UserRepository;
-use Illuminate\Support\Facades\Log;
 
 final class Handler
 {
@@ -23,8 +22,6 @@ final class Handler
             'name' => $command->name,
             'number' => $command->number,
         ]);
-
-        Log::error("asd");
 
         $claim->user()->associate(
             $this->users->findById($userId)

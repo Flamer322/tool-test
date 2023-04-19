@@ -6,7 +6,6 @@ namespace App\Claim\Command\Edit;
 
 use App\Claim\Entity\Claim;
 use App\Claim\Repository\ClaimRepository;
-use Illuminate\Support\Facades\Log;
 
 final class Handler
 {
@@ -25,8 +24,6 @@ final class Handler
         $this->claims->save($claim);
 
         foreach ($command->files as $file) {
-            Log::error('file');
-
             $claim->addMedia($file)
                 ->toMediaCollection(Claim::MEDIA_COLLECTION);
         }
